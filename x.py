@@ -57,7 +57,7 @@ def main():
                 send_message(chat_id, str_i)
             elif message_text == "да":
                 send_message(chat_id, "<b>Зурна</b>")
-            elif message_text.lower() =="Зурна":
+            elif message_text.lower() =="зурна":
                 send_message(chat_id, if_ans[0])
             else:
                 answer = random.choice(choose_ans)
