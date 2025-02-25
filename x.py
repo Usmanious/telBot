@@ -7,7 +7,7 @@ import random
 choose_ans = ["Нет, скажи Да", "Я так много прошу - скажи да", "Это не серьезно, скажи да",
               "Пропробуй еще раз, у тебя получиться, скажи да"]
 if_ans = ["Умница, я пока не умею ничего другого, но это пока..."]
-TOKEN = ' '
+TOKEN = '7854248038:AAGeVX5G4T0jU7J7CXfDSNGOXm3xExXNKNw'
 BASE_URL = f'https://api.telegram.org/bot{TOKEN}'
 logging.basicConfig(filename="bot.log", level=logging.INFO)
 logger = logging.getLogger(__name__)
@@ -43,8 +43,16 @@ def main():
     while True:
         updates = get_updates(offset)
         for update in updates['result']:
-            chat_id = update['message']['chat']['id']
-            message_text = update['message']['text']
+            try:
+            	chat_id = update['message']['chat']['id']
+            except Exception as s:
+                logger.info("%s", s)
+                continue
+            try:
+            	message_text = update['message']['text']
+            except Exception as s:
+               logger.info("%s", s)
+               continue
             frm = update['message']['chat']
             logger.info("%s %s %s", chat_id, message_text, frm)
             print(f"Received message: {message_text} from chat_id: {chat_id}")
@@ -55,7 +63,7 @@ def main():
             elif message_text == "/help":
                 str_i = "Здесь все просто, я ЗурнаБот - скажи да"
                 send_message(chat_id, str_i)
-            elif message_text == "да":
+            elif message_text.lower() == "да":
                 send_message(chat_id, "<b>Зурна</b>")
             elif message_text.lower() =="зурна":
                 send_message(chat_id, if_ans[0])
